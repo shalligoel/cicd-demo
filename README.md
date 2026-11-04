@@ -35,7 +35,25 @@ git commit -m "Initial commit"
 git branch -M main
 git remote add origin https://github.com/OWNER/REPO.git
 git push -u origin main
-```
+
+if there is issue then create token or public key
+Option A: Personal Access Token (quickest)
+Go to GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token.
+Tick the repo scope (add workflow too, since this is a CI/CD project and you’ll likely push .github/workflows files).
+Copy the token, then run git push -u origin main again. For the username, use your GitHub username (not your email), and paste the token as the password.
+To avoid retyping it each time:
+git config --global credential.helper store
+
+Option B: create ssh keys
+ssh-keygen -t ed25519 -C "shalligoel@gmail.com"
+cat ~/.ssh/id_ed25519.pub
+Add that public key at GitHub → Settings → SSH and GPG keys, then switch the remote:
+
+	Create repo first - cicd-demo.git
+git remote set-url origin git@github.com:shalligoel/cicd-demo.git
+git remote -v
+git push -u origin main
+
 
 ## 4. Connect your AWS account
 Use an IAM user or IAM Identity Center (SSO) with permissions to create ECR and IAM resources, then:
